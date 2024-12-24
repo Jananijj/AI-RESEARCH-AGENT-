@@ -7,3 +7,6 @@ beautifulsoup4
 tiktoken
 requests
 selenium
+langchain_openai
+openai
+streamlit
