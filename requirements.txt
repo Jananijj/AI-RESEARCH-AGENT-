@@ -1,0 +1,9 @@
+fastapi[all]
+openai
+python-dotenv
+pydantic==1.*
+langchain
+beautifulsoup4
+tiktoken
+requests
+selenium
