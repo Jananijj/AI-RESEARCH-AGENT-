@@ -24,6 +24,7 @@ serper_api_key = os.getenv("SERP_API_KEY")
 
 # 1. Tool for search
 def search(query):
+    print(f"Searching for: {query}")  # Debugging line
     url = "https://google.serper.dev/search"
     payload = json.dumps({"q": query})
     headers = {
@@ -44,8 +45,7 @@ def search(query):
 
 # 2. Tool for scraping using ScrapingBee API
 def scrape_website(objective: str, url: str):
-    print("Scraping website using ScrapingBee...")
-
+    print(f"Scraping website: {url}")  # Debugging line
     scrapingbee_url = "https://app.scrapingbee.com/api/v1"
     params = {
         'api_key': SCRAPINGBEE_API_KEY,
@@ -73,6 +73,7 @@ def scrape_website(objective: str, url: str):
 
 # 3. Summarization function
 def summary(objective, content):
+    print(f"Summarizing content for objective: {objective}")  # Debugging line
     llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-16k-0613")
 
     text_splitter = RecursiveCharacterTextSplitter(
@@ -104,7 +105,7 @@ class ScrapeWebsiteInput(BaseModel):
     """Inputs for scrape_website"""
     objective: str = Field(
         description="The objective & task that users give to the agent")
-    url: str = Field(description="The url of the website to be scraped")
+    url: str = Field(description="The URL of the website to be scraped")
 
 
 # 5. Create a custom ScrapeWebsiteTool
@@ -170,9 +171,10 @@ class Query(BaseModel):
 @app.post("/")
 def researchAgent(query: Query):
     try:
+        print(f"Received query: {query.query}")  # Debugging line
         content = agent.invoke({"input": query.query})
 
-        print(content)  # Print the response for debugging
+        print(f"Agent Response: {content}")  # Debugging line
         
         if isinstance(content, dict) and 'output' in content:
             actual_content = content['output']
